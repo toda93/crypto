@@ -30,9 +30,9 @@ export function decryptAES(key, hash) {
 export function toSign(path, secret) {
 
     if (path.includes('?')) {
-        path += '&time=';
+        path += '&stime=';
     } else {
-        path += '?time=';
+        path += '?stime=';
     }
 
     path += Math.floor(Date.now() / 1000);
