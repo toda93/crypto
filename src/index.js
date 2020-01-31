@@ -41,3 +41,21 @@ export function toSign(path, secret) {
     const hashedSignature = sha1Secret(secret, uri.path);
     return url.format(uri) + '&sign=' + hashedSignature;
 }
+
+export function isValidSign(path, secret, timeout = 300) {
+    const timeNow = Math.floor(Date.now() / 1000);
+    const uri = url.parse(path);
+
+    const urlParams = new URLSearchParams(uri.search);
+    const sign = urlParams.get('sign');
+    const stime = urlParams.get('stime');
+
+
+    if (sign && stime && timeNow - Number(stime) < timeout) {
+        const hashedSignature = sha1Secret(secret, uri.path.replace(/&sign=(.*)/, ''));
+        if (hashedSignature === sign) {
+            return true;
+        }
+    }
+    return false;
+}
