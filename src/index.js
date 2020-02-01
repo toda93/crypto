@@ -27,6 +27,13 @@ export function decryptAES(key, hash) {
 }
 
 
+
+function floorToMinute(time, minutes) {
+    const roundSecond = minutes * 60;
+    time = time - (time % (Math.floor(time / roundSecond) * roundSecond));
+    return time;
+}
+
 export function toSign(path, secret) {
 
     if (path.includes('?')) {
@@ -35,7 +42,7 @@ export function toSign(path, secret) {
         path += '?stime=';
     }
 
-    path += Math.floor(Date.now() / 1000);
+    path += floorToMinutes(Math.floor(Date.now() / 1000), 5);
 
     const uri = url.parse(path);
     const hashedSignature = sha1Secret(secret, uri.path);
@@ -43,7 +50,7 @@ export function toSign(path, secret) {
 }
 
 export function isValidSign(path, secret, timeout = 300) {
-    const timeNow = Math.floor(Date.now() / 1000);
+    const timeNow = floorToMinutes(Math.floor(Date.now() / 1000), 5);
     const uri = url.parse(path);
 
     const urlParams = new URLSearchParams(uri.search);
