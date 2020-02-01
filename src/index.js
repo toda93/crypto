@@ -34,7 +34,7 @@ function floorToMinute(time, minutes) {
     return time;
 }
 
-export function toSign(path, secret) {
+export function toSign(path, secret, timeout = 5) {
 
     if (path.includes('?')) {
         path += '&stime=';
@@ -42,15 +42,15 @@ export function toSign(path, secret) {
         path += '?stime=';
     }
 
-    path += floorToMinute(Math.floor(Date.now() / 1000), 5);
+    path += floorToMinute(Math.floor(Date.now() / 1000), timeout);
 
     const uri = url.parse(path);
     const hashedSignature = sha1Secret(secret, uri.path);
     return url.format(uri) + '&sign=' + hashedSignature;
 }
 
-export function isValidSign(path, secret, timeout = 300) {
-    const timeNow = floorToMinute(Math.floor(Date.now() / 1000), 5);
+export function isValidSign(path, secret, timeout = 5) {
+    const timeNow = Math.floor(Date.now() / 1000);
     const uri = url.parse(path);
 
     const urlParams = new URLSearchParams(uri.search);
@@ -58,7 +58,7 @@ export function isValidSign(path, secret, timeout = 300) {
     const stime = urlParams.get('stime');
 
 
-    if (sign && stime && timeNow - Number(stime) < timeout) {
+    if (sign && stime && timeNow - (Number(stime) + timeout * 60) < timeout) {
         const hashedSignature = sha1Secret(secret, uri.path.replace(/&sign=(.*)/, ''));
         if (hashedSignature === sign) {
             return true;
