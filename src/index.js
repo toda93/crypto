@@ -42,7 +42,7 @@ export function toSign(path, secret) {
         path += '?stime=';
     }
 
-    path += floorToMinutes(Math.floor(Date.now() / 1000), 5);
+    path += floorToMinute(Math.floor(Date.now() / 1000), 5);
 
     const uri = url.parse(path);
     const hashedSignature = sha1Secret(secret, uri.path);
@@ -50,7 +50,7 @@ export function toSign(path, secret) {
 }
 
 export function isValidSign(path, secret, timeout = 300) {
-    const timeNow = floorToMinutes(Math.floor(Date.now() / 1000), 5);
+    const timeNow = floorToMinute(Math.floor(Date.now() / 1000), 5);
     const uri = url.parse(path);
 
     const urlParams = new URLSearchParams(uri.search);
