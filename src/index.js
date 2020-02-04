@@ -1,25 +1,25 @@
-import crypto from 'crypto';
-import url from 'url';
+const crypto = require('crypto');
+const url = require('url');
 
-export function md5(text) {
+ function md5(text) {
     return crypto.createHash('md5').update(text).digest('hex');
 }
-export function sha1(text) {
+ function sha1(text) {
     return crypto.createHash('sha1').update(text).digest('hex');
 }
-export function sha1Secret(text, key) {
+ function sha1Secret(text, key) {
     return crypto.createHmac('sha1', key).update(text).digest('hex');
 }
 
 
-export function encyptAES(text, key) {
+ function encyptAES(text, key) {
     let cipher = crypto.createCipher('aes-256-cbc', key);
     let crypted = cipher.update(text, 'utf8', 'hex');
     crypted += cipher.final('hex');
     return crypted;
 }
 
-export function decryptAES(key, hash) {
+function decryptAES(key, hash) {
     let decipher = crypto.createDecipher('aes-256-cbc', key);
     let dec = decipher.update(hash, 'hex', 'utf8');
     dec += decipher.final('utf8');
@@ -34,7 +34,7 @@ function floorToMinute(time, minutes) {
     return time;
 }
 
-export function toSign(path, secret, timeout = 5) {
+function toSign(path, secret, timeout = 5) {
 
     if (path.includes('?')) {
         path += '&stime=';
@@ -49,7 +49,7 @@ export function toSign(path, secret, timeout = 5) {
     return url.format(uri) + '&sign=' + hashedSignature;
 }
 
-export function isValidSign(path, secret, timeout = 5) {
+function isValidSign(path, secret, timeout = 5) {
     const timeNow = Math.floor(Date.now() / 1000);
     const uri = url.parse(path);
 
@@ -66,3 +66,15 @@ export function isValidSign(path, secret, timeout = 5) {
     }
     return false;
 }
+
+
+module.exports = {
+    md5,
+    sha1,
+    sha1Secret,
+    encyptAES,
+    decryptAES
+    toSign,
+    isValidSign,
+
+};
