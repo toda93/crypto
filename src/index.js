@@ -73,8 +73,7 @@ module.exports = {
     sha1,
     sha1Secret,
     encyptAES,
-    decryptAES
+    decryptAES,
     toSign,
     isValidSign,
-
 };
