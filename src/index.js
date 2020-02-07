@@ -2,26 +2,26 @@ const crypto = require('crypto');
 const url = require('url');
 
  function md5(text) {
-    return crypto.createHash('md5').update(text).digest('hex');
+    return crypto.createHash('md5').update(String(text)).digest('hex');
 }
  function sha1(text) {
-    return crypto.createHash('sha1').update(text).digest('hex');
+    return crypto.createHash('sha1').update(String(text)).digest('hex');
 }
  function sha1Secret(text, key) {
-    return crypto.createHmac('sha1', key).update(text).digest('hex');
+    return crypto.createHmac('sha1', key).update(String(text)).digest('hex');
 }
 
 
  function encyptAES(text, key) {
-    let cipher = crypto.createCipher('aes-256-cbc', key);
-    let crypted = cipher.update(text, 'utf8', 'hex');
+    let cipher = crypto.createCipher('aes-256-cbc', String(key));
+    let crypted = cipher.update(String(text), 'utf8', 'hex');
     crypted += cipher.final('hex');
     return crypted;
 }
 
 function decryptAES(key, hash) {
-    let decipher = crypto.createDecipher('aes-256-cbc', key);
-    let dec = decipher.update(hash, 'hex', 'utf8');
+    let decipher = crypto.createDecipher('aes-256-cbc', String(key));
+    let dec = decipher.update(String(hash), 'hex', 'utf8');
     dec += decipher.final('utf8');
     return dec;
 }
