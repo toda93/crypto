@@ -49,7 +49,7 @@ function toSign(path, secret, timeout = 5) {
     return url.format(uri) + '&sign=' + hashedSignature;
 }
 
-function isValidSign(path, secret, timeout = 5) {
+function isValidSign(path, secret, mTimeout = 5) {
     const timeNow = Math.floor(Date.now() / 1000);
     const uri = url.parse(path);
 
@@ -58,7 +58,7 @@ function isValidSign(path, secret, timeout = 5) {
     const stime = urlParams.get('stime');
 
 
-    if (sign && stime && timeNow - (Number(stime) + timeout * 60) < timeout) {
+    if (sign && stime && timeNow - (Number(stime) + mTimeout * 60) < mTimeout) {
         const hashedSignature = sha1Secret(secret, uri.path.replace(/&sign=(.*)/, ''));
         if (hashedSignature === sign) {
             return true;
