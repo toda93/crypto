@@ -34,7 +34,7 @@ function floorToMinute(time, minutes) {
     return time;
 }
 
-function toSign(path, secret, timeout = 5) {
+function toSign(path, secret, mTimeout = 5) {
 
     if (path.includes('?')) {
         path += '&stime=';
@@ -42,7 +42,7 @@ function toSign(path, secret, timeout = 5) {
         path += '?stime=';
     }
 
-    path += floorToMinute(Math.floor(Date.now() / 1000), timeout);
+    path += floorToMinute(Math.floor(Date.now() / 1000), mTimeout);
 
     const uri = url.parse(path);
     const hashedSignature = sha1Secret(secret, uri.path);
