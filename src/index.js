@@ -19,7 +19,7 @@ const url = require('url');
     return crypted;
 }
 
-function decryptAES(key, hash) {
+function decryptAES(hash, key) {
     let decipher = crypto.createDecipher('aes-256-cbc', String(key));
     let dec = decipher.update(String(hash), 'hex', 'utf8');
     dec += decipher.final('utf8');
