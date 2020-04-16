@@ -72,7 +72,7 @@ module.exports = {
     md5,
     sha1,
     sha1Secret,
-    encyptAES,
+    encryptAES,
     decryptAES,
     toSign,
     isValidSign,
