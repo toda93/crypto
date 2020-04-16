@@ -12,7 +12,7 @@ const url = require('url');
 }
 
 
- function encyptAES(text, key) {
+ function encryptAES(text, key) {
     let cipher = crypto.createCipher('aes-256-cbc', String(key));
     let crypted = cipher.update(String(text), 'utf8', 'hex');
     crypted += cipher.final('hex');
