@@ -1,6 +1,6 @@
 const crypto = require('crypto');
 const url = require('url');
-const speakeasy require('speakeasy');
+const speakeasy = require('speakeasy');
 
 function md5(text) {
     return crypto.createHash('md5').update(String(text)).digest('hex');
