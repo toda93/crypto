@@ -1,18 +1,21 @@
 const crypto = require('crypto');
 const url = require('url');
+const speakeasy require('speakeasy');
 
- function md5(text) {
+function md5(text) {
     return crypto.createHash('md5').update(String(text)).digest('hex');
 }
- function sha1(text) {
+
+function sha1(text) {
     return crypto.createHash('sha1').update(String(text)).digest('hex');
 }
- function sha1Secret(text, key) {
+
+function sha1Secret(text, key) {
     return crypto.createHmac('sha1', key).update(String(text)).digest('hex');
 }
 
 
- function encryptAES(text, key) {
+function encryptAES(text, key) {
     let cipher = crypto.createCipher('aes-256-cbc', String(key));
     let crypted = cipher.update(String(text), 'utf8', 'hex');
     crypted += cipher.final('hex');
@@ -66,6 +69,33 @@ function isValidSign(path, secret, mTimeout = 5) {
     }
     return false;
 }
+
+
+
+function generateSecretKeyOTP() {
+    const secret = speakeasy.generateSecret();
+    return secret.base32;
+}
+
+function generateOTP(secret, ttlMinutes = 5) {
+    return speakeasy.totp({
+        secret,
+        step: 60,
+        window: ttlMinutes,
+        encoding: 'base32'
+    });
+}
+
+function verifyOTP(secret, token, ttlMinutes = 5) {
+    return speakeasy.totp.verify({
+        secret,
+        token,
+        step: 60,
+        window: ttlMinutes,
+        encoding: 'base32',
+    });
+}
+
 
 
 module.exports = {
