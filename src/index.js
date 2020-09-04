@@ -106,4 +106,7 @@ module.exports = {
     decryptAES,
     toSign,
     isValidSign,
+    generateSecretKeyOTP,
+    generateOTP,
+    verifyOTP,
 };
