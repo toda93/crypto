@@ -10,6 +10,10 @@ function sha1(text) {
     return crypto.createHash('sha1').update(String(text)).digest('hex');
 }
 
+function sha256Secret(text, key) {
+    return crypto.createHmac('sha256', key).update(String(text)).digest('hex');
+}
+
 function sha1Secret(text, key) {
     return crypto.createHmac('sha1', key).update(String(text)).digest('hex');
 }
