@@ -106,6 +106,7 @@ module.exports = {
     md5,
     sha1,
     sha1Secret,
+    sha256Secret,
     encryptAES,
     decryptAES,
     toSign,
